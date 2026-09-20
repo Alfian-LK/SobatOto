@@ -1,53 +1,196 @@
-// 1. Predefined responses dictionary
-const botResponses = {
-    "hello": "Hi there! How can I help you today?",
-    "hi": "Hello! What can I do for you?",
-    "how are you": "I'm doing great, thank you for asking! How about you?",
-    "what is your name": "I am a simple JavaScript chatbot.",
-    "bye": "Goodbye! Have a wonderful day!",
-    "default": "I'm not sure I understand that. Could you try rephrasing?"
-};
+const questions = [
+    {
+        text: "Does the engine fail to start?",
+        fact: "engine_wont_start"
+    },
 
-// 2. DOM Elements
-const chatBox = document.getElementById("chat-box");
-const userInput = document.getElementById("user-input");
-const sendBtn = document.getElementById("send-btn");
+    {
+        text: "Does the starter motor sound slow when you press the starter?",
+        fact: "starter_sounds_slow"
+    },
 
-// 3. Function to append a message to the chat UI
-function appendMessage(text, sender) {
-    const messageElement = document.createElement("div");
-    messageElement.classList.add("message", `${sender}-message`);
-    messageElement.textContent = text;
-    chatBox.appendChild(messageElement);
-    
-    // Auto-scroll to the bottom of the chat box
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
+    {
+        text: "Are the headlights dim?",
+        fact: "headlight_dim"
+    },
 
-// 4. Core function to handle user text processing
-function handleChat() {
-    const rawInput = userInput.value;
-    const cleanInput = rawInput.trim().toLowerCase(); // Normalize text
+    {
+        text: "Does the starter motor turn the engine normally?",
+        fact: "starter_turns_normally"
+    },
 
-    if (cleanInput === "") return; // Ignore empty submissions
+    {
+        text: "Is there fuel in the tank?",
+        fact: "fuel_available"
+    },
 
-    // Display user message
-    appendMessage(rawInput, "user");
-    userInput.value = ""; // Clear input field
-
-    // Simulate natural thinking delay before bot replies
-    setTimeout(() => {
-        // Find match or fall back to default response
-        const botReply = botResponses[cleanInput] || botResponses["default"];
-        appendMessage(botReply, "bot");
-    }, 600); 
-}
-
-// 5. Event Listeners
-sendBtn.addEventListener("click", handleChat);
-
-userInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        handleChat();
+    {
+        text: "Is the spark plug producing a spark?",
+        fact: "spark_present"
     }
-});
+];
+
+let currentQuestion = 0;
+let userFacts = [];
+
+
+// Start the application
+async function start() {
+
+    await loadRules();
+
+    showQuestion();
+}
+
+
+// Display question
+function showQuestion() {
+
+    if (currentQuestion >= questions.length) {
+        diagnose();
+        return;
+    }
+
+    document.getElementById("question").textContent =
+        questions[currentQuestion].text;
+}
+
+
+// User answers
+function answer(isYes) {
+
+    const question = questions[currentQuestion];
+
+    addChatMessage(
+        question.text,
+        isYes ? "Yes" : "No"
+    );
+
+    if (isYes) {
+        userFacts.push(question.fact);
+    }
+
+    currentQuestion++;
+
+    showQuestion();
+}
+
+
+// Run inference
+function diagnose() {
+
+    const result = forwardChain(userFacts);
+
+    let diagnosis = null;
+
+    for (const fact of result.facts) {
+
+        if (
+            fact === "battery_problem" ||
+            fact === "spark_plug_problem" ||
+            fact === "fuel_problem" ||
+            fact === "fuel_delivery_problem" ||
+            fact === "starter_or_battery_problem"
+        ) {
+            diagnosis = fact;
+        }
+    }
+
+    displayResult(diagnosis, result);
+}
+
+
+// Display diagnosis
+function displayResult(diagnosis, result) {
+
+    const resultElement = document.getElementById("result");
+
+    if (!diagnosis) {
+
+        resultElement.innerHTML = `
+            <h2>Unable to determine the problem</h2>
+            <p>
+                The available rules do not match your symptoms.
+                Consider checking the motorcycle manually or consulting
+                a mechanic.
+            </p>
+        `;
+
+    } else {
+
+        const rule = rules.find(
+            r => r.conclusion === diagnosis
+        );
+
+        resultElement.innerHTML = `
+            <h2>Possible Problem</h2>
+
+            <h3>${formatDiagnosis(diagnosis)}</h3>
+
+            <p>${rule.explanation}</p>
+
+            <h4>Inference:</h4>
+            <p>Rules used: ${result.firedRules.join(", ")}</p>
+        `;
+    }
+
+    resultElement.classList.remove("hidden");
+
+    document
+        .getElementById("question-area")
+        .classList.add("hidden");
+
+    document
+        .getElementById("restart")
+        .classList.remove("hidden");
+}
+
+
+// Convert ID to readable text
+function formatDiagnosis(text) {
+
+    return text
+        .replaceAll("_", " ")
+        .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+
+// Chat display
+function addChatMessage(question, answer) {
+
+    const chatbox = document.getElementById("chatbox");
+
+    chatbox.innerHTML += `
+        <div class="message">
+            <strong>Question:</strong> ${question}<br>
+            <strong>You:</strong> ${answer}
+        </div>
+    `;
+}
+
+
+// Restart
+function restart() {
+
+    currentQuestion = 0;
+    userFacts = [];
+
+    document.getElementById("chatbox").innerHTML = "";
+
+    document
+        .getElementById("result")
+        .classList.add("hidden");
+
+    document
+        .getElementById("restart")
+        .classList.add("hidden");
+
+    document
+        .getElementById("question-area")
+        .classList.remove("hidden");
+
+    showQuestion();
+}
+
+
+start();
