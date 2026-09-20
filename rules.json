@@ -1,0 +1,57 @@
+[
+    {
+        "id": "R1",
+        "conditions": [
+            "engine_wont_start",
+            "starter_sounds_slow",
+            "headlight_dim"
+        ],
+        "conclusion": "battery_problem",
+        "explanation": "The battery may be weak or discharged."
+    },
+
+    {
+        "id": "R2",
+        "conditions": [
+            "engine_wont_start",
+            "starter_does_not_turn"
+        ],
+        "conclusion": "starter_or_battery_problem",
+        "explanation": "The problem may be related to the battery, starter motor, or starter circuit."
+    },
+
+    {
+        "id": "R3",
+        "conditions": [
+            "engine_wont_start",
+            "starter_turns_normally",
+            "fuel_available",
+            "spark_missing"
+        ],
+        "conclusion": "spark_plug_problem",
+        "explanation": "The engine is turning but there may be no ignition spark."
+    },
+
+    {
+        "id": "R4",
+        "conditions": [
+            "engine_wont_start",
+            "starter_turns_normally",
+            "fuel_empty"
+        ],
+        "conclusion": "fuel_problem",
+        "explanation": "The motorcycle may have insufficient fuel."
+    },
+
+    {
+        "id": "R5",
+        "conditions": [
+            "engine_wont_start",
+            "starter_turns_normally",
+            "fuel_available",
+            "spark_present"
+        ],
+        "conclusion": "fuel_delivery_problem",
+        "explanation": "Fuel may not be reaching the engine properly."
+    }
+]
