@@ -1,195 +1,482 @@
-const questions = [
-    {
-        text: "Does the engine fail to start?",
-        fact: "engine_wont_start"
-    },
-
-    {
-        text: "Does the starter motor sound slow when you press the starter?",
-        fact: "starter_sounds_slow"
-    },
-
-    {
-        text: "Are the headlights dim?",
-        fact: "headlight_dim"
-    },
-
-    {
-        text: "Does the starter motor turn the engine normally?",
-        fact: "starter_turns_normally"
-    },
-
-    {
-        text: "Is there fuel in the tank?",
-        fact: "fuel_available"
-    },
-
-    {
-        text: "Is the spark plug producing a spark?",
-        fact: "spark_present"
-    }
-];
+const chatbox = document.getElementById("chatbox");
+const answerArea = document.getElementById("answer-area");
 
 let currentQuestion = 0;
 let userFacts = [];
 
 
-// Start the application
+// =================================
+// QUESTIONS
+// =================================
+
+const questions = [
+
+    {
+        text: "Apakah mesin motor tidak dapat menyala?",
+
+        answers: [
+            {
+                text: "Ya",
+                fact: "engine_wont_start"
+            },
+            {
+                text: "Tidak",
+                fact: "engine_can_start"
+            }
+        ]
+    },
+
+    {
+        text: "Apa yang terjadi ketika tombol starter ditekan?",
+
+        answers: [
+
+            {
+                text: "Tidak terjadi apa-apa",
+                fact: "starter_does_not_turn"
+            },
+
+            {
+                text: "Starter berputar tetapi lambat",
+                fact: "starter_sounds_slow"
+            },
+
+            {
+                text: "Starter berputar normal",
+                fact: "starter_turns_normally"
+            }
+
+        ]
+    },
+
+    {
+        text: "Apakah lampu utama terlihat redup?",
+
+        answers: [
+
+            {
+                text: "Ya",
+                fact: "headlight_dim"
+            },
+
+            {
+                text: "Tidak",
+                fact: "headlight_normal"
+            }
+
+        ]
+    },
+
+    {
+        text: "Apakah bensin masih tersedia di tangki?",
+
+        answers: [
+
+            {
+                text: "Ya",
+                fact: "fuel_available"
+            },
+
+            {
+                text: "Tidak",
+                fact: "fuel_empty"
+            }
+
+        ]
+    },
+
+    {
+        text: "Apakah busi menghasilkan percikan api?",
+
+        answers: [
+
+            {
+                text: "Ya",
+                fact: "spark_present"
+            },
+
+            {
+                text: "Tidak",
+                fact: "spark_missing"
+            }
+
+        ]
+    }
+
+];
+
+
+// =================================
+// START
+// =================================
+
 async function start() {
 
     await loadRules();
 
+    addBotMessage(
+        "Halo! Saya SobatOto 🏍️"
+    );
+
+    addBotMessage(
+        "Saya akan membantu mencari kemungkinan masalah pada motor kamu."
+    );
+
+    addBotMessage(
+        "Mari kita mulai. Apa yang terjadi dengan motor kamu?"
+    );
+
     showQuestion();
 }
 
 
-// Display question
+// =================================
+// SHOW QUESTION
+// =================================
+
 function showQuestion() {
 
     if (currentQuestion >= questions.length) {
+
         diagnose();
+
         return;
     }
 
-    document.getElementById("question").textContent =
-        questions[currentQuestion].text;
+
+    const question =
+        questions[currentQuestion];
+
+
+    addBotMessage(question.text);
+
+
+    answerArea.innerHTML = "";
+
+
+    question.answers.forEach(answer => {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className =
+            "answer-button";
+
+
+        button.textContent =
+            answer.text;
+
+
+        button.onclick = () => {
+
+            selectAnswer(answer);
+
+        };
+
+
+        answerArea.appendChild(button);
+
+    });
 }
 
 
-// User answers
-function answer(isYes) {
+// =================================
+// USER ANSWER
+// =================================
 
-    const question = questions[currentQuestion];
+function selectAnswer(answer) {
 
-    addChatMessage(
-        question.text,
-        isYes ? "Yes" : "No"
-    );
+    /*
+       Add user's response to chat.
+    */
 
-    if (isYes) {
-        userFacts.push(question.fact);
+    addUserMessage(answer.text);
+
+
+    /*
+       Add fact to knowledge base.
+    */
+
+    if (answer.fact) {
+
+        userFacts.push(answer.fact);
+
     }
 
+
     currentQuestion++;
+
+
+    /*
+       Small delay makes it feel
+       more like a chatbot.
+    */
+
+    answerArea.innerHTML = "";
+
+
+    setTimeout(() => {
+
+        showQuestion();
+
+    }, 400);
+}
+
+
+// =================================
+// BOT MESSAGE
+// =================================
+
+function addBotMessage(text) {
+
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "message-row bot";
+
+
+    const avatar =
+        document.createElement("div");
+
+    avatar.className =
+        "bot-avatar";
+
+    avatar.textContent =
+        "🏍️";
+
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message";
+
+
+    message.innerHTML = `
+        ${text}
+
+        <div class="message-time">
+            ${getTime()}
+        </div>
+    `;
+
+
+    row.appendChild(avatar);
+
+    row.appendChild(message);
+
+
+    chatbox.appendChild(row);
+
+
+    scrollChat();
+}
+
+
+// =================================
+// USER MESSAGE
+// =================================
+
+function addUserMessage(text) {
+
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "message-row user";
+
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message";
+
+
+    message.innerHTML = `
+        ${text}
+
+        <div class="message-time">
+            ${getTime()}
+        </div>
+    `;
+
+
+    row.appendChild(message);
+
+
+    chatbox.appendChild(row);
+
+
+    scrollChat();
+}
+
+
+// =================================
+// DIAGNOSIS
+// =================================
+
+function diagnose() {
+
+    const result =
+        forwardChain(userFacts);
+
+
+    const possibleProblems = [
+
+        "battery_problem",
+
+        "starter_or_battery_problem",
+
+        "spark_plug_problem",
+
+        "fuel_problem",
+
+        "fuel_delivery_problem"
+
+    ];
+
+
+    const diagnosis =
+        result.facts.find(
+            fact => possibleProblems.includes(fact)
+        );
+
+
+    if (!diagnosis) {
+
+        addBotMessage(
+            "Maaf, saya belum dapat menentukan kemungkinan masalah berdasarkan jawaban yang diberikan."
+        );
+
+        addBotMessage(
+            "Sebaiknya lakukan pemeriksaan lebih lanjut atau konsultasikan dengan mekanik."
+        );
+
+        showRestartButton();
+
+        return;
+    }
+
+
+    const rule =
+        rules.find(
+            r => r.conclusion === diagnosis
+        );
+
+
+    addBotMessage(
+        "Terima kasih. Saya sudah menganalisis jawaban kamu."
+    );
+
+
+    setTimeout(() => {
+
+        addBotMessage(
+            `Kemungkinan masalahnya adalah <strong>${formatDiagnosis(diagnosis)}</strong>.`
+        );
+
+    }, 500);
+
+
+    setTimeout(() => {
+
+        addBotMessage(
+            rule.explanation
+        );
+
+        showRestartButton();
+
+    }, 1000);
+}
+
+
+// =================================
+// RESTART
+// =================================
+
+function showRestartButton() {
+
+    answerArea.innerHTML = "";
+
+
+    const button =
+        document.createElement("button");
+
+
+    button.className =
+        "answer-button";
+
+
+    button.textContent =
+        "🔄 Mulai pemeriksaan lagi";
+
+
+    button.onclick =
+        restart;
+
+
+    answerArea.appendChild(button);
+}
+
+
+function restart() {
+
+    currentQuestion = 0;
+
+    userFacts = [];
+
+
+    chatbox.innerHTML = "";
+
+
+    addBotMessage(
+        "Baik! Kita mulai pemeriksaan baru."
+    );
+
 
     showQuestion();
 }
 
 
-// Run inference
-function diagnose() {
+// =================================
+// UTILITIES
+// =================================
 
-    const result = forwardChain(userFacts);
-
-    let diagnosis = null;
-
-    for (const fact of result.facts) {
-
-        if (
-            fact === "battery_problem" ||
-            fact === "spark_plug_problem" ||
-            fact === "fuel_problem" ||
-            fact === "fuel_delivery_problem" ||
-            fact === "starter_or_battery_problem"
-        ) {
-            diagnosis = fact;
-        }
-    }
-
-    displayResult(diagnosis, result);
-}
-
-
-// Display diagnosis
-function displayResult(diagnosis, result) {
-
-    const resultElement = document.getElementById("result");
-
-    if (!diagnosis) {
-
-        resultElement.innerHTML = `
-            <h2>Unable to determine the problem</h2>
-            <p>
-                The available rules do not match your symptoms.
-                Consider checking the motorcycle manually or consulting
-                a mechanic.
-            </p>
-        `;
-
-    } else {
-
-        const rule = rules.find(
-            r => r.conclusion === diagnosis
-        );
-
-        resultElement.innerHTML = `
-            <h2>Possible Problem</h2>
-
-            <h3>${formatDiagnosis(diagnosis)}</h3>
-
-            <p>${rule.explanation}</p>
-
-            <h4>Inference:</h4>
-            <p>Rules used: ${result.firedRules.join(", ")}</p>
-        `;
-    }
-
-    resultElement.classList.remove("hidden");
-
-    document
-        .getElementById("question-area")
-        .classList.add("hidden");
-
-    document
-        .getElementById("restart")
-        .classList.remove("hidden");
-}
-
-
-// Convert ID to readable text
 function formatDiagnosis(text) {
 
     return text
         .replaceAll("_", " ")
-        .replace(/\b\w/g, char => char.toUpperCase());
+        .replace(/\b\w/g, char =>
+            char.toUpperCase()
+        );
 }
 
 
-// Chat display
-function addChatMessage(question, answer) {
+function getTime() {
 
-    const chatbox = document.getElementById("chatbox");
+    const now = new Date();
 
-    chatbox.innerHTML += `
-        <div class="message">
-            <strong>Question:</strong> ${question}<br>
-            <strong>You:</strong> ${answer}
-        </div>
-    `;
+    return now.toLocaleTimeString(
+        "id-ID",
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
 }
 
 
-// Restart
-function restart() {
+function scrollChat() {
 
-    currentQuestion = 0;
-    userFacts = [];
+    setTimeout(() => {
 
-    document.getElementById("chatbox").innerHTML = "";
+        chatbox.scrollTop =
+            chatbox.scrollHeight;
 
-    document
-        .getElementById("result")
-        .classList.add("hidden");
-
-    document
-        .getElementById("restart")
-        .classList.add("hidden");
-
-    document
-        .getElementById("question-area")
-        .classList.remove("hidden");
-
-    showQuestion();
+    }, 50);
 }
 
 
