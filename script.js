@@ -104,7 +104,7 @@ const questions = [
             },
 
             {
-                text: "Ya tetapi mesin tidak hidup",
+                text: "Ya, tetapi mesin tidak hidup",
                 fact: "starter_tidak_bekerja"
             },
 
@@ -303,7 +303,7 @@ const questions = [
             },
 
         ]
-    },
+    }
 
 ];
 
@@ -416,48 +416,52 @@ function selectAnswer(answer) {
 // BOT MESSAGE
 // =================================
 
-function addBotMessage(text) {
+function addBotMessage(text, images = []) {
 
-    const row =
-        document.createElement("div");
+    const row = document.createElement("div");
+    row.className = "message-row bot";
 
-    row.className =
-        "message-row bot";
+    const avatar = document.createElement("div");
+    avatar.className = "bot-avatar";
+    avatar.textContent = "🏍️";
 
+    const message = document.createElement("div");
+    message.className = "message";
 
-    const avatar =
-        document.createElement("div");
+    // Create image HTML
+    let imageHTML = "";
 
-    avatar.className =
-        "bot-avatar";
+    if (images.length > 0) {
 
-    avatar.textContent =
-        "🏍️";
-
-
-    const message =
-        document.createElement("div");
-
-    message.className =
-        "message";
-
+        imageHTML = `
+            <div class="question-images">
+                ${images.slice(0, 2).map(image => `
+                    <img
+                        src="${image}"
+                        class="question-image"
+                        alt="Ilustrasi pertanyaan"
+                    >
+                `).join("")}
+            </div>
+        `;
+    }
 
     message.innerHTML = `
-        ${text}
+        ${imageHTML}
+
+        <div class="message-text">
+            ${text}
+        </div>
 
         <div class="message-time">
             ${getTime()}
         </div>
     `;
 
-
     row.appendChild(avatar);
-
     row.appendChild(message);
 
-
     chatbox.appendChild(row);
-
 
     scrollChat();
 }
