@@ -149,6 +149,23 @@ body {
     justify-content: flex-end;
 }
 
+.question-images {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.question-image {
+    width: 150px;
+    height: 120px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    display: block;
+}
+
 
 /* =================================
    BOT AVATAR
