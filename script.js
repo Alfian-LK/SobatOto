@@ -269,12 +269,12 @@ const questions = [
 
             {
                 text: "Iya",
-                fact: "permukaan_ban_lebar"
+                fact: "sekring_putus"
             },
 
             {
                 text: "Tidak",
-                fact: "permukaan_ban_tidak_lebar"
+                fact: "sekring_tidak_putus"
             }
 
         ]
