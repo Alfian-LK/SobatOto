@@ -11,97 +11,299 @@ let userFacts = [];
 
 const questions = [
 
-    {
-        text: "Apakah mesin motor tidak dapat menyala?",
+    // {
+    //     text: "Mari kita mulai. Manakah model motor yang Anda gunakan?",
 
-        answers: [
-            {
-                text: "Ya",
-                fact: "engine_wont_start"
-            },
-            {
-                text: "Tidak",
-                fact: "engine_can_start"
-            }
-        ]
-    },
-
-    {
-        text: "Apa yang terjadi ketika tombol starter ditekan?",
-
-        answers: [
-
-            {
-                text: "Tidak terjadi apa-apa",
-                fact: "starter_does_not_turn"
-            },
-
-            {
-                text: "Starter berputar tetapi lambat",
-                fact: "starter_sounds_slow"
-            },
-
-            {
-                text: "Starter berputar normal",
-                fact: "starter_turns_normally"
-            }
-
-        ]
-    },
+    //     answers: [
+    //         {
+    //             text: "Honda BeAT",
+    //             fact: "honda_beat"
+    //         },
+    //         {
+    //             text: "Honda Vario",
+    //             fact: "honda_vario"
+    //         },
+    //         {
+    //             text: "Honda Scoopy",
+    //             fact: "honda_scoopy"
+    //         },
+    //         {
+    //             text: "Honda PCX 160",
+    //             fact: "honda_pcx"
+    //         },
+    //         {
+    //             text: "Yamaha NMAX",
+    //             fact: "yamaha_nmax"
+    //         },
+    //         {
+    //             text: "Yamaha Mio",
+    //             fact: "yamaha_mio"
+    //         },
+    //         {
+    //             text: "Lainnya",
+    //             fact: "motor_lain"
+    //         },
+    //     ]
+    // },
 
     {
-        text: "Apakah lampu utama terlihat redup?",
+        text: "Mari kita mulai. Apakah panel motor menyala?",
 
-        answers: [
-
-            {
-                text: "Ya",
-                fact: "headlight_dim"
-            },
-
-            {
-                text: "Tidak",
-                fact: "headlight_normal"
-            }
-
-        ]
-    },
-
-    {
-        text: "Apakah bensin masih tersedia di tangki?",
+        images: [],
 
         answers: [
 
             {
-                text: "Ya",
-                fact: "fuel_available"
+                text: "Menyala",
+                fact: "panel_menyala"
             },
 
             {
-                text: "Tidak",
-                fact: "fuel_empty"
+                text: "Menyala redup",
+                fact: "panel_redup"
+            },
+
+            {
+                text: "Tidak menyala",
+                fact: "panel_mati"
             }
 
         ]
     },
 
     {
-        text: "Apakah busi menghasilkan percikan api?",
+        text: "Cek tangki bensin secara langsung. Apakah terdapat bensin yang cukup?",
+
+        images: [],
 
         answers: [
 
             {
                 text: "Ya",
-                fact: "spark_present"
+                fact: "ada_bensin"
             },
 
             {
                 text: "Tidak",
-                fact: "spark_missing"
+                fact: "tidak_ada_bensin"
             }
 
         ]
-    }
+    },
+
+    {
+        text: "Apakah starter motor berbunyi ketika ditekan?",
+
+        images: [],
+
+        answers: [
+
+            {
+                text: "Iya",
+                fact: "starter_berbunyi"
+            },
+
+            {
+                text: "Ya tetapi mesin tidak hidup",
+                fact: "starter_tidak_bekerja"
+            },
+
+            {
+                text: "Tidak",
+                fact: "starter_tidak_berbunyi"
+            }
+
+        ]
+    },
+
+    {
+        text: "Apakah standar samping sudah dinaikkan?",
+
+        images: [],
+
+        answers: [
+
+            {
+                text: "Sudah",
+                fact: "standar_samping_naik"
+            },
+
+            {
+                text: "Belum",
+                fact: "standar_samping_turun"
+            }
+
+        ]
+    },
+
+    {
+        text: "Apakah klakson motor berfungsi?",
+
+        images: [],
+
+        answers: [
+
+            {
+                text: "Berbunyi",
+                fact: "klakson_berbunyi"
+            },
+
+            {
+                text: "Berbunyi lemah",
+                fact: "klakson_lemah"
+            },
+
+            {
+                text: "Tidak berbunyi",
+                fact: "klakson_tidak_berbunyi"
+            }
+
+        ]
+    },
+
+    // {
+    //     text: "Apakah mesin mati tiba-tiba mendadak saat berjalan?",
+
+    //     images: [],
+
+    //     answers: [
+
+    //         {
+    //             text: "Iya",
+    //             fact: "mesin_mati_mendadak"
+    //         },
+
+    //         {
+    //             text: "Tidak",
+    //             fact: "mesin_tidak_mati_mendadak"
+    //         }
+
+    //     ]
+    // },
+
+    {
+        text: "Apakah ada di antara lampu indikator ini yang menyala?",
+
+        images: [
+            "images/indikator.jpg"
+        ],
+
+        answers: [
+
+            {
+                text: "Nomor 1",
+                fact: "indikator_mil"
+            },
+
+            {
+                text: "Nomor 2",
+                fact: "indikator_suhu"
+            },
+
+            {
+                text: "Nomor 3",
+                fact: "indikator_baterai"
+            },
+
+            {
+                text: "Tidak ada",
+                fact: "tidak_ada_indikator"
+            }
+
+        ]
+    },
+
+    {
+        text: "Apakah rem responsif (langsung berhenti ketika ditekan)?",
+
+        images: [],
+
+        answers: [
+
+            {
+                text: "Iya",
+                fact: "rem_responsif"
+            },
+
+            {
+                text: "Tidak",
+                fact: "rem_tidak_responsif"
+            },
+
+            {
+                text: "Tidak ada tuas rem",
+                fact: "tuas_rem_kosong"
+            }
+
+        ]
+    },
+
+    {
+        text: "Apakah permukaan bagian bawah ban terlihat lebar?",
+
+        images: [],
+
+        answers: [
+
+            {
+                text: "Iya",
+                fact: "permukaan_ban_lebar"
+            },
+
+            {
+                text: "Tidak",
+                fact: "permukaan_ban_tidak_lebar"
+            }
+
+        ]
+    },
+
+    {
+        text: "Periksa kotak sekring di bawah pijakan kaki motor. Apakah sekring putus?",
+
+        images: [
+            "images/sekring.webp"
+        ],
+
+        answers: [
+
+            {
+                text: "Iya",
+                fact: "permukaan_ban_lebar"
+            },
+
+            {
+                text: "Tidak",
+                fact: "permukaan_ban_tidak_lebar"
+            }
+
+        ]
+    },
+
+    {
+        text: "Bagaimana kondisi motor sebelumnya saat dijalankan?",
+
+        images: [],
+
+        answers: [
+
+            {
+                text: "Stabil dan mudah dikendalikan",
+                fact: "motor_stabil"
+            },
+
+            {
+                text: "Stabil tetapi lambat",
+                fact: "motor_lambat"
+            },
+
+            {
+                text: "Tidak stabil",
+                fact: "motor_tidak_stabil"
+            },
+
+        ]
+    },
 
 ];
 
@@ -115,16 +317,16 @@ async function start() {
     await loadRules();
 
     addBotMessage(
-        "Halo! Saya SobatOto 🏍️"
+        "Halo! Aku Oto"
     );
 
     addBotMessage(
-        "Saya akan membantu mencari kemungkinan masalah pada motor kamu."
+        "Aku akan membantu mencari kemungkinan masalah pada motor kamu."
     );
 
-    addBotMessage(
-        "Mari kita mulai. Apa yang terjadi dengan motor kamu?"
-    );
+    // addBotMessage(
+    //     "Mari kita mulai. Apa yang terjadi dengan motor kamu?"
+    // );
 
     showQuestion();
 }
@@ -137,46 +339,32 @@ async function start() {
 function showQuestion() {
 
     if (currentQuestion >= questions.length) {
-
         diagnose();
-
         return;
     }
 
+    const question = questions[currentQuestion];
 
-    const question =
-        questions[currentQuestion];
-
-
-    addBotMessage(question.text);
-
+    addBotMessage(
+        question.text,
+        question.images || []
+    );
 
     answerArea.innerHTML = "";
 
-
     question.answers.forEach(answer => {
 
-        const button =
-            document.createElement("button");
+        const button = document.createElement("button");
 
+        button.className = "answer-button";
 
-        button.className =
-            "answer-button";
-
-
-        button.textContent =
-            answer.text;
-
+        button.textContent = answer.text;
 
         button.onclick = () => {
-
             selectAnswer(answer);
-
         };
 
-
         answerArea.appendChild(button);
-
     });
 }
 
@@ -326,15 +514,25 @@ function diagnose() {
 
     const possibleProblems = [
 
-        "battery_problem",
+        "gangguan_aki",
 
-        "starter_or_battery_problem",
+        "sistem_pengaman",
 
-        "spark_plug_problem",
+        "bensin_habis",
 
-        "fuel_problem",
+        "aki_lemah",
 
-        "fuel_delivery_problem"
+        "malfungsi",
+
+        "mesin_panas",
+
+        "rem_tidak_aman",
+
+        "masalah_ban",
+
+        "sekring_rusak",
+
+        "gangguan_aki_lanjut"
 
     ];
 
@@ -352,7 +550,7 @@ function diagnose() {
         );
 
         addBotMessage(
-            "Sebaiknya lakukan pemeriksaan lebih lanjut atau konsultasikan dengan mekanik."
+            "Sebaiknya bawa motormu ke bengkel terdekat untuk pengamatan lanjutan atau konsultasi dengan mekanik."
         );
 
         showRestartButton();
@@ -411,7 +609,7 @@ function showRestartButton() {
 
 
     button.textContent =
-        "🔄 Mulai pemeriksaan lagi";
+        "Mulai pemeriksaan lagi";
 
 
     button.onclick =

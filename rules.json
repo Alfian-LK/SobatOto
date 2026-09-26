@@ -2,56 +2,120 @@
     {
         "id": "R1",
         "conditions": [
-            "engine_wont_start",
-            "starter_sounds_slow",
-            "headlight_dim"
+            "panel_mati",
+            "starter_tidak_berbunyi"
         ],
-        "conclusion": "battery_problem",
-        "explanation": "The battery may be weak or discharged."
+        "conclusion": "gangguan_aki",
+        "explanation": "Kemungkinan gangguan aki atau kelistrikan. Periksa kondisi aki/terminal secara visual, tetapi jangan dibongkar jika tidak paham."
     },
 
     {
         "id": "R2",
         "conditions": [
-            "engine_wont_start",
-            "starter_does_not_turn"
+            "standar_samping_turun"
         ],
-        "conclusion": "starter_or_battery_problem",
-        "explanation": "The problem may be related to the battery, starter motor, or starter circuit."
+        "conclusion": "sistem_pengaman",
+        "explanation": "Sistem pengaman dapat mencegah mesin hidup. Naikkan standar samping lalu coba nyalakan motor sesuai manual."
     },
 
     {
         "id": "R3",
         "conditions": [
-            "engine_wont_start",
-            "starter_turns_normally",
-            "fuel_available",
-            "spark_missing"
+            "starter_tidak_bekerja",
+            "tidak_ada_bensin"
         ],
-        "conclusion": "spark_plug_problem",
-        "explanation": "The engine is turning but there may be no ignition spark."
+        "conclusion": "bensin_habis",
+        "explanation": "Isikan tangki bensin ke SPBU terdekat."
     },
 
     {
         "id": "R4",
         "conditions": [
-            "engine_wont_start",
-            "starter_turns_normally",
-            "fuel_empty"
+            "panel_redup",
+            "klakson_lemah"
         ],
-        "conclusion": "fuel_problem",
-        "explanation": "The motorcycle may have insufficient fuel."
+        "conclusion": "aki_lemah",
+        "explanation": "Kemungkinan aki lemah. Kurangi percobaan starter berulang dan lakukan pemeriksaan aki."
     },
 
     {
         "id": "R5",
         "conditions": [
-            "engine_wont_start",
-            "starter_turns_normally",
-            "fuel_available",
-            "spark_present"
+            "starter_tidak_bekerja",
+            "indikator_mil"
         ],
-        "conclusion": "fuel_delivery_problem",
-        "explanation": "Fuel may not be reaching the engine properly."
+        "conclusion": "malfungsi",
+        "explanation": "Motor memerlukan pemeriksaan lebih lanjut. Segera bawa motor ke bengkel terdekat."
+    },
+
+    {
+        "id": "R6",
+        "conditions": [
+            "indikator_suhu"
+        ],
+        "conclusion": "mesin_panas",
+        "explanation": "Kemungkinan suhu mesin terlalu tinggi. Hentikan motor, biarkan dingin, jangan membuka sistem pendingin saat panas."
+    },
+
+    {
+        "id": "R7", 
+        "conditions": {
+            "OR":   [
+                "rem_tidak_responsif",
+                "tuas_rem_kosong"
+            ]
+        },
+        "conclusion": "rem_tidak_aman",
+        "explanation": "Sistem rem tidak aman digunakan. Jangan lanjut berkendara, minta bantuan pengangkutan atau teknisi."
+    },
+
+    {
+        "id": "R8",
+        "conditions": [
+            "permukaan_ban_lebar",
+            "motor_tidak_stabil"
+        ],
+        "conclusion": "masalah_ban",
+        "explanation": "Ban memerlukan pemeriksaan. Hentikan penggunaan jika tidak stabil dan periksa tekanan/kondisi ban."
+    },
+
+    {
+        "id": "R9",
+        "conditions": [
+            "starter_tidak_bekerja",
+            "ada_bensin"
+        ],
+        "conclusion": "gangguan_aki",
+        "explanation": "Kemungkinan gangguan aki atau kelistrikan. Periksa kondisi aki/terminal secara visual, tetapi jangan dibongkar jika tidak paham."
+    },
+
+    {
+        "id": "R10",
+        "conditions": [
+            "starter_tidak_berbunyi",
+            "sekring_putus"
+        ],
+        "conclusion": "sekring_rusak",
+        "explanation": "Ganti sekring rusak dengan sekring baru. Jika sekring sering putus, periksakan motor ke bengkel terdekat."
+    },
+
+    {
+        "id": "R11",
+        "conditions": [
+            "indikator_baterai"
+        ],
+        "conclusion": "aki_lemah",
+        "explanation": "Kemungkinan aki lemah. Kurangi percobaan starter berulang dan lakukan pemeriksaan aki."
+    },
+
+    {
+        "id": "R12",
+        "conditions": [
+            "aki_lemah",
+            "motor_lambat"
+        ],
+        "conclusion": "gangguan_aki_lanjut",
+        "explanation": "Periksa sambungan kabel aki atau isi aki di bengkel terdekat."
     }
+    
 ]
