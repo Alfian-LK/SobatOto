@@ -524,8 +524,6 @@ function diagnose() {
 
         "bensin_habis",
 
-        "aki_lemah",
-
         "malfungsi",
 
         "mesin_panas",
@@ -536,7 +534,9 @@ function diagnose() {
 
         "sekring_rusak",
 
-        "gangguan_aki_lanjut"
+        "gangguan_aki_lanjut",
+
+        "aki_lemah"
 
     ];
 
